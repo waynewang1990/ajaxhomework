@@ -15,7 +15,7 @@
         const selRoad = document.querySelector('#selectRoad');
         const divInfo = document.querySelector('#div1');
 
-        selCity.addEventListener('change', async () => {
+        selCity.addEventListener('change', () => {
 
             //const i = selCity.selectedIndex;
             //console.log(selCity.options[i].value);
@@ -23,13 +23,13 @@
 
             //  console.log(selCity.value);
             //   console.log(selCity.text);
-            await loadDistrict();
+             loadDistrict();
         })
-        selDistrict.addEventListener('change', async () => {
+        selDistrict.addEventListener('change', () => {
             // console.log(selDistrict.value);
-            await loadRoad()
+             loadRoad()
         })
-        selRoad.addEventListener('change', async () => {
+        selRoad.addEventListener('change',  () => {
             console.log(selRoad.value);
             divInfo.innerHTML = `${selCity.value}${selDistrict.value}${selRoad.value}`;
         })
