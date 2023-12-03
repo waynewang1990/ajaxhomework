@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="selectCity"></select>
+<select id="selectDistrict"></select>
+<select id="selectRoad"></select>
+<div id="div1"></div>
+
+@section Scripts{
+    <script>
+        const selCity = document.querySelector('#selectCity');
+        const selDistrict = document.querySelector('#selectDistrict');
+        const selRoad = document.querySelector('#selectRoad');
+        const divInfo = document.querySelector('#div1');
+
+        selCity.addEventListener('change', async () => {
+
+            //const i = selCity.selectedIndex;
+            //console.log(selCity.options[i].value);
+            //console.log(selCity.options[i].text);
+
+            //  console.log(selCity.value);
+            //   console.log(selCity.text);
+            await loadDistrict();
+        })
+        selDistrict.addEventListener('change', async () => {
+            // console.log(selDistrict.value);
+            await loadRoad()
+        })
+        selRoad.addEventListener('change', async () => {
+            console.log(selRoad.value);
+            divInfo.innerHTML = `${selCity.value}${selDistrict.value}${selRoad.value}`;
+        })
+
+        // function loadCity() {
+        //    ajax
+        //    const xhr = new XMLHttpRequest();
+        //    xhr.addEventListener('load', () => {
+        //        const datas = JSON.parse(xhr.responseText);
+        //         const cities = datas.map(city => `<option value='${city}'>${city}</option>`)
+        //     selCity.innerHTML = cities.join("");
+        //     loadDistrict();
+        //    })
+        //    xhr.open('GET', '@Url.Content("~/HW/cities")');
+        //    xhr.send()
+        //}
+        async function loadCity() {
+            const response = await fetch('@Url.Content("~/HW/Cities")');
+            const datas = await response.json();
+            const Cities = datas.map(Cities => `<option value='${Cities}'>${Cities}</option>`)
+            selCity.innerHTML = Cities.join("");
+            console.log(selCity.value)
+
+
+        }
+        
+        // function loadDistrict() {
+        //    //ajax
+        //    const xhr = new XMLHttpRequest();
+        //    xhr.addEventListener('load', () => {
+        //        const datas = JSON.parse(xhr.responseText);
+        //        const districts = datas.map(district => `<option value='${district}'>${district}</option>`)
+        //         selDistrict.innerHTML = districts.join("");
+        //         loadRoad();
+        //    })
+        //    xhr.open('GET', `@Url.Content("~/HW/districts")?city=${selCity.value}`);
+        //    xhr.send()
+        //}
+       
+        async function loadDistrict() {
+            const response = await fetch(`@Url.Content("~/HW/Districts")?city=${selCity.value}`);
+            const datas = await response.json();
+            const Districts = datas.map(Districts => `<option value='${Districts}'>${Districts}</option>`)
+            selDistrict.innerHTML = Districts.join("");
+
+
+        }
+
+        //function loadRoad() {
+        //    //ajax
+        //    const xhr = new XMLHttpRequest();
+        //    xhr.addEventListener('load', () => {
+        //        const datas = JSON.parse(xhr.responseText);
+        //        const roads = datas.map(road => `<option value='${road}'>${road}</option>`)
+        //         selRoad.innerHTML = roads.join("");
+        //    })
+        //    xhr.open('GET', `@Url.Content("~/HW/roads")?siteId=${selDistrict.value}`);
+        //    xhr.send()
+        //}
+
+         async function loadRoad() {
+            const response = await fetch(`@Url.Content("~/HW/roads")?siteId=${selDistrict.value}`);
+            const datas = await response.json();
+            const Roads = datas.map(Roads => `<option value='${Roads}'>${Roads}</option>`)
+            selRoad.innerHTML = Roads.join("");
+           
+
+        }
+        
+
+        loadCity();
+
+       
+    </script>
+}
+
